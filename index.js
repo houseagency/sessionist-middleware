@@ -16,13 +16,17 @@ const sessionistMiddleware = (keyfn) => {
 			req.method,
 			req.url,
 			req,
-			req.headers.date
+			req.headers.date,
+			keyfn
 		)
 		.then(() => {
-			next();
+			setImmediate(() => next());
 		})
 		.catch(err => {
-			next(new errors.InvalidCredentialsError(err.message));
+			// setImmediate to break out of the try/catch of the promise chain,
+			// so any throws in the callback can be handled properly (somewhere
+			// else, that is).
+			setImmediate(() => next(new errors.InvalidCredentialsError(err.message)));
 		});
 
 	};

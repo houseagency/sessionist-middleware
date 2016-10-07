@@ -13,7 +13,7 @@
     "lodash": "4.15.0",
     "q": "1.4.1",
     "restify-errors": "4.3.0",
-    "sessionistheader": "0.1.0"
+    "sessionistheader": "0.1.2"
   },
   "devDependencies": {
     "chai": "3.5.0",
