@@ -1,7 +1,7 @@
 const errors = require('restify-errors');
 const sessionistHeader = require('sessionistheader');
 
-const sessionistMiddleware = (keyfn) => {
+const parseAuthorizationMiddleware = (keyfn) => {
 	return (req, res, next) => {
 
 		if (typeof req.headers.authorization === 'undefined') {
@@ -11,7 +11,7 @@ const sessionistMiddleware = (keyfn) => {
 			return next(new errors.InvalidContentError('No Date header in request.'));
 		}
 
-		sessionistHeader.verify(
+		req._sessionist = sessionistHeader.verify(
 			req.headers.authorization,
 			req.method,
 			req.url,
@@ -19,8 +19,22 @@ const sessionistMiddleware = (keyfn) => {
 			req.headers.date,
 			keyfn
 		)
-		.then(() => {
-			setImmediate(() => next());
+
+		next();
+	};
+};
+
+const settleAuthorizationMiddleware = (keyfn) => {
+	return (req, res, next) => {
+
+		if (typeof req._sessionist === 'undefined') {
+			return next(new errors.InternalServerError('Sessionist settleAuthorizationMiddleware requires parseAuthorizationMiddleware to be used first in the middleware chain.'));
+		}
+
+		req._sessionist
+		.then(keyid => {
+			req.sessionist_keyid = keyid;
+			setImmediate(next);
 		})
 		.catch(err => {
 			// setImmediate to break out of the try/catch of the promise chain,
@@ -32,4 +46,7 @@ const sessionistMiddleware = (keyfn) => {
 	};
 };
 
-module.exports = sessionistMiddleware;
+module.exports = {
+	parseAuthorizationMiddleware,
+	settleAuthorizationMiddleware
+};

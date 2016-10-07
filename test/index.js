@@ -6,10 +6,18 @@ const util = require('util');
 
 describe('Module', () => {
 
-	const middleware = sessionistMiddleware((keyid, cb) => {
+	const parser = sessionistMiddleware.parseAuthorizationMiddleware((keyid, cb) => {
 		if (keyid === '123') return cb(null, 'topsecret');
 		cb(new Error('No such key.'));
 	});
+	const settler = sessionistMiddleware.settleAuthorizationMiddleware();
+	const middleware = (req, res, next) => {
+		parser(req, res, err => {
+			if (err) return next(err);
+			settler(req, res, next);
+		});
+	};
+
 	const now = (new Date()).toUTCString();
 
 	class Req extends EventEmitter {
@@ -66,7 +74,7 @@ describe('Module', () => {
 			});
 		});
 
-		it('should not fail when using a proper header', done => {
+		it('should set a property on the request object with the valid key', done => {
 			let payload = '{ "my": "payload" }';
 			sessionistHeader('123', 'topsecret', 'GET', '/endpoint', payload, now)
 			.then(authHeader => {
@@ -81,6 +89,7 @@ describe('Module', () => {
 				);
 				middleware(req, null, err => {
 					expect(typeof err).to.equal('undefined');
+					expect(req.sessionist_keyid).to.equal('123');
 					done();
 				});
 				req.emit('data', new Buffer(payload));
