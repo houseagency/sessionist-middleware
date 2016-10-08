@@ -24,3 +24,16 @@ This middleware is actually not one middleware, but two. The
 		// If the header is valid, a sessionist_keyid string will be added to
 		// the request object.
 
+If you don't need `bodyParser` in your app, you can skip that middleware.
+However, you still have to use both our two middlewares, in the proper order:
+
+		server.use(sessionistMiddleware.parseAuthorizationMiddleware(keyfn));
+		server.use(sessionistMiddleware.settleAuthorizationMiddleware());
+
+### Why two middlewares?
+
+To verify the `Authorization:` header, we need to make a hash of the full body
+payload. To do that, we have to listen to the same data events as
+`bodyParser` is listening to. So, the `parseAuthorizationMiddleware` sets up
+the listeners and does the hashing, and then `settleAuthorizationMiddleware`
+will act on that hash.
