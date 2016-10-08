@@ -1,6 +1,6 @@
 {
   "name": "sessionist-middleware",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Restify middleware for verifying the sessionist HTTP Authorization header.",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "lodash": "4.15.0",
     "q": "1.4.1",
     "restify-errors": "4.3.0",
-    "sessionistheader": "0.1.4"
+    "sessionistheader": "0.1.5"
   },
   "devDependencies": {
     "chai": "3.5.0",
