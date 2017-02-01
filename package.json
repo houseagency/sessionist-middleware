@@ -1,19 +1,23 @@
 {
   "name": "sessionist-middleware",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Restify middleware for verifying the sessionist HTTP Authorization header.",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --recursive --reporter spec"
   },
   "author": "Alfred Godoy <alfred@nurd.nu>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/houseagency/sessionist-middleware.git"
+  },
   "license": "GPL-3.0",
   "dependencies": {
     "jssha": "2.2.0",
     "lodash": "4.15.0",
     "q": "1.4.1",
     "restify-errors": "4.3.0",
-    "sessionistheader": "0.1.5"
+    "sessionistheader": "0.1.6"
   },
   "devDependencies": {
     "chai": "3.5.0",
