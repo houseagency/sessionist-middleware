@@ -1,5 +1,7 @@
 # The Sessionist Middleware for Restify
 
+[![Build Status](https://semaphoreci.com/api/v1/houseagency/sessionist-middleware/branches/master/badge.svg)](https://semaphoreci.com/houseagency/sessionist-middleware)
+
 ## How to use
 
 This middleware is actually not one middleware, but two. The 
