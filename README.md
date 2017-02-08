@@ -1,6 +1,6 @@
 # The Sessionist Middleware for Restify
 
-[![Build Status](https://semaphoreci.com/api/v1/houseagency/sessionist-middleware/branches/master/badge.svg)](https://semaphoreci.com/houseagency/sessionist-middleware)
+[![Build Status](https://semaphoreci.com/api/v1/houseagency/sessionist-middleware/branches/master/shields_badge.svg)](https://semaphoreci.com/houseagency/sessionist-middleware)
 
 ## How to use
 
