@@ -7,7 +7,11 @@ const parseAuthorizationMiddleware = (keyfn) => {
 		if (typeof req.headers.authorization === 'undefined') {
 			return next(new errors.InvalidContentError('No Authorization header in request.'));
 		}
-		if (typeof req.headers.date === 'undefined') {
+
+		if (
+			typeof req.headers.date === 'undefined' &&
+			typeof req.headers['x-date'] === 'undefined'
+		) {
 			return next(new errors.InvalidContentError('No Date header in request.'));
 		}
 
@@ -16,7 +20,7 @@ const parseAuthorizationMiddleware = (keyfn) => {
 			req.method,
 			req.url,
 			req,
-			req.headers.date,
+			req.headers.date || req.headers['x-date'],
 			keyfn
 		)
 

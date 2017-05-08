@@ -74,7 +74,7 @@ describe('Module', () => {
 			});
 		});
 
-		it('should set a property on the request object with the valid key', done => {
+		it('should set a property on the request object with the valid key and date header', done => {
 			let payload = '{ "my": "payload" }';
 			sessionistHeader('123', 'topsecret', 'GET', '/endpoint', payload, now)
 			.then(authHeader => {
@@ -83,6 +83,32 @@ describe('Module', () => {
 					{
 						authorization: authHeader,
 						date: now
+					},
+					'GET',
+					'/endpoint'
+				);
+				middleware(req, null, err => {
+					expect(typeof err).to.equal('undefined');
+					expect(req.sessionist_keyid).to.equal('123');
+					done();
+				});
+				req.emit('data', new Buffer(payload));
+				req.emit('end');
+			})
+			.catch(err => {
+				done(err);
+			});
+		});
+
+		it('should set a property on the request object with the valid key and x-date header', done => {
+			let payload = '{ "my": "payload" }';
+			sessionistHeader('123', 'topsecret', 'GET', '/endpoint', payload, now)
+			.then(authHeader => {
+
+				let req = new Req(
+					{
+						authorization: authHeader,
+						'x-date': now
 					},
 					'GET',
 					'/endpoint'
