@@ -1,6 +1,6 @@
 {
   "name": "sessionist-middleware",
-  "version": "1",
+  "version": "1.0.0",
   "description": "Restify middleware for verifying the sessionist HTTP Authorization header.",
   "main": "index.js",
   "scripts": {
